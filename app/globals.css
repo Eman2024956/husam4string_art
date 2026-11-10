@@ -1,0 +1,249 @@
+@import "tailwindcss";
+
+/* =====================================================================
+   LOOMA design tokens — taken from the Website Visual Identity System v1.0
+   Official fonts (Lucentra, TheSans, TheSansArabic) are licensed files.
+   Drop the WOFF2 files into /public/fonts and uncomment the @font-face
+   block below. Until then the stacks fall back to the identity's stand-ins.
+   ===================================================================== */
+
+/*
+@font-face { font-family: "Lucentra"; src: url("/fonts/Lucentra-Light.woff2") format("woff2"); font-weight: 300; font-display: swap; }
+@font-face { font-family: "Lucentra"; src: url("/fonts/Lucentra-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "TheSans"; src: url("/fonts/TheSans-Light.woff2") format("woff2"); font-weight: 300; font-display: swap; }
+@font-face { font-family: "TheSans"; src: url("/fonts/TheSans-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "TheSans"; src: url("/fonts/TheSans-Medium.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "TheSansArabic"; src: url("/fonts/TheSansArabic-Light.woff2") format("woff2"); font-weight: 300; font-display: swap; }
+@font-face { font-family: "TheSansArabic"; src: url("/fonts/TheSansArabic-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "TheSansArabic"; src: url("/fonts/TheSansArabic-Medium.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+*/
+
+@theme {
+  --color-linen: #eee5db;
+  --color-linen-dark: #e5dacd;
+  --color-black: #060708;
+  --color-graphite: #343c40;
+  --color-toffee: #8c6147;
+  --color-cinnamon: #905335;
+  --color-taupe: #98785d;
+
+  --font-display: "Lucentra", "Cormorant Garamond", "Times New Roman", serif;
+  --font-sans: "TheSans", "IBM Plex Sans", system-ui, sans-serif;
+  --font-arabic: "TheSansArabic", "IBM Plex Sans Arabic", "Segoe UI", Tahoma, sans-serif;
+
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1440px;
+
+  --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-thread: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-settle: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-cinema: cubic-bezier(0.7, 0, 0.2, 1);
+}
+
+:root {
+  --margin: 20px;
+  --gutter: 16px;
+  --section-y: 96px;
+  --dur-micro: 240ms;
+  --dur-standard: 560ms;
+  --dur-reveal: 960ms;
+  --line-on-light: rgb(52 60 64 / 0.16);
+  --line-on-dark: rgb(238 229 219 / 0.18);
+  --header-h: 72px;
+}
+@media (min-width: 768px) { :root { --margin: 32px; --gutter: 20px; --section-y: 128px; } }
+@media (min-width: 1024px) { :root { --margin: 48px; --gutter: 24px; --section-y: 176px; } }
+@media (min-width: 1440px) { :root { --margin: 80px; --gutter: 32px; --section-y: 224px; } }
+
+/* Resets and shared classes live in layers so Tailwind utilities can override them. */
+@layer base {
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; background: var(--color-black); }
+body {
+  margin: 0;
+  background: var(--color-linen);
+  color: var(--color-graphite);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.65;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+html[dir="rtl"] body { font-family: var(--font-arabic); font-size: 17px; line-height: 1.9; }
+::selection { background: var(--color-toffee); color: var(--color-linen); }
+img, svg { display: block; max-width: 100%; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+h1, h2, h3, p, ul, ol, figure { margin: 0; padding: 0; }
+ul, ol { list-style: none; }
+
+/* Focus: 1px outline in the room's text colour, offset 4px. Never removed. */
+:focus-visible { outline: 1px solid currentColor; outline-offset: 4px; }
+
+.skip-link {
+  position: fixed; inset-block-start: 8px; inset-inline-start: 8px; z-index: 700;
+  background: var(--color-linen); color: var(--color-black); padding: 12px 16px;
+  transform: translateY(-200%);
+}
+.skip-link:focus { transform: none; }
+
+}
+
+@layer components {
+/* ---------- Rooms: fixed recipes, not user themes ---------- */
+.room { position: relative; padding-block: var(--section-y); background: var(--room-bg); color: var(--room-fg); }
+.room-linen { --room-bg: var(--color-linen); --room-fg: var(--color-graphite); --room-label: var(--color-cinnamon); --room-thread: var(--color-toffee); --room-line: var(--line-on-light); --room-muted: var(--color-graphite); --room-slot: var(--color-linen-dark); }
+.room-black { --room-bg: var(--color-black); --room-fg: var(--color-linen); --room-label: var(--color-taupe); --room-thread: var(--color-toffee); --room-line: var(--line-on-dark); --room-muted: var(--color-taupe); --room-slot: #101214; }
+.room-graphite { --room-bg: var(--color-graphite); --room-fg: var(--color-linen); --room-label: var(--color-linen); --room-thread: var(--color-linen); --room-line: rgb(238 229 219 / 0.25); --room-muted: var(--color-linen); --room-slot: #2b3236; }
+.room-taupe { --room-bg: var(--color-taupe); --room-fg: var(--color-black); --room-label: var(--color-black); --room-thread: var(--color-black); --room-line: rgb(6 7 8 / 0.28); --room-muted: var(--color-black); --room-slot: #8d6f55; }
+
+/* ---------- Layout ---------- */
+.wrap { width: 100%; max-width: 1600px; margin-inline: auto; padding-inline: var(--margin); }
+.grid12 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: var(--gutter); }
+@media (min-width: 768px) { .grid12 { grid-template-columns: repeat(8, minmax(0, 1fr)); } }
+@media (min-width: 1024px) { .grid12 { grid-template-columns: repeat(12, minmax(0, 1fr)); } }
+.measure { max-width: 62ch; }
+
+/* ---------- Type ---------- */
+.t-display-xl, .t-display-l, .t-h1, .t-h2, .t-numeral { font-family: var(--font-display); font-weight: 300; margin: 0; text-wrap: balance; }
+.t-display-xl { font-size: clamp(56px, 10.5vw, 184px); line-height: 0.9; letter-spacing: 0.01em; text-transform: uppercase; }
+.t-display-l { font-size: clamp(44px, 6vw, 112px); line-height: 0.98; }
+.t-h1 { font-size: clamp(34px, 4vw, 64px); line-height: 1.05; }
+.t-h2 { font-size: clamp(26px, 2.6vw, 40px); line-height: 1.15; font-weight: 400; }
+.t-numeral { color: var(--room-thread); font-variant-numeric: tabular-nums; }
+.t-body-l { font-size: clamp(18px, 1.3vw, 20px); line-height: 1.65; font-weight: 300; }
+.t-caption { font-size: 13px; line-height: 1.5; }
+.t-label { font-size: 11px; line-height: 1.4; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--room-label); }
+.latin { font-family: var(--font-display); }
+
+/* Arabic is composed, not mirrored: its own face, sizes and leading. */
+html[dir="rtl"] .t-display-xl,
+html[dir="rtl"] .t-display-l,
+html[dir="rtl"] .t-h1,
+html[dir="rtl"] .t-h2 { font-family: var(--font-arabic); letter-spacing: 0; text-transform: none; }
+html[dir="rtl"] .t-display-xl { font-size: clamp(46px, 8.6vw, 150px); line-height: 1.2; }
+html[dir="rtl"] .t-display-l { font-size: clamp(36px, 4.9vw, 92px); line-height: 1.25; }
+html[dir="rtl"] .t-h1 { font-size: clamp(28px, 3.3vw, 52px); line-height: 1.3; }
+html[dir="rtl"] .t-h2 { font-size: clamp(22px, 2.2vw, 33px); line-height: 1.35; font-weight: 400; }
+html[dir="rtl"] .t-body-l { line-height: 1.9; }
+html[dir="rtl"] .t-label { font-size: 13px; letter-spacing: 0; text-transform: none; }
+html[dir="rtl"] .t-caption { font-size: 14px; line-height: 1.7; }
+html[dir="rtl"] .t-numeral { font-family: var(--font-display); }
+
+/* ---------- Hero ---------- */
+.hero-title { font-family: var(--font-display); font-weight: 300; font-size: clamp(46px, 7.2vw, 128px); line-height: 0.94; letter-spacing: 0.01em; text-transform: uppercase; margin: 0; }
+html[dir="rtl"] .hero-title { font-family: var(--font-arabic); font-size: clamp(42px, 6.2vw, 108px); line-height: 1.22; letter-spacing: 0; text-transform: none; }
+.hero-art .hc, .hero-art .hero-ring { stroke-dasharray: 1; }
+/* Opening state, held only when motion is allowed. A CSS fallback reveals everything
+   after 5s in case scripts never run, so content can never stay hidden. */
+html[data-motion="on"] .hero-art .hc,
+html[data-motion="on"] .hero-art .hero-ring { stroke-dashoffset: 1; animation: draw 1ms 5s forwards; }
+html[data-motion="on"] .hero-art .ha,
+html[data-motion="on"] .hero-art .hero-nails,
+html[data-motion="on"] .hero-logo,
+html[data-motion="on"] [data-hero] { opacity: 0; visibility: hidden; animation: hero-safety 1ms 5s forwards; }
+html[data-motion="on"] [data-hero] { transform: translateY(24px); }
+@keyframes hero-safety { to { opacity: 1; visibility: visible; transform: none; } }
+
+/* ---------- Thread + nail ---------- */
+.nail { display: inline-block; width: 6px; height: 6px; border-radius: 9999px; background: var(--room-thread, var(--color-toffee)); flex: none; }
+.hairline { border: 0; height: 1px; background: var(--room-line); margin: 0; }
+
+/* Section heading: numeral · thread · label on one line */
+.chapter-head { display: flex; align-items: center; gap: 16px; }
+.chapter-head .thread { flex: 0 0 64px; height: 1px; background: var(--room-thread); transform-origin: inline-start; }
+html[dir="rtl"] .chapter-head .thread { transform-origin: right; }
+
+/* ---------- Buttons: fill like thread wound onto a spool ---------- */
+.btn {
+  position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+  min-height: 50px; padding: 0 28px; overflow: hidden; isolation: isolate;
+  font-size: 12px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase;
+  border: 1px solid transparent; border-radius: 0;
+  transition: color var(--dur-standard) var(--ease-thread), border-color var(--dur-standard) var(--ease-thread);
+}
+html[dir="rtl"] .btn { font-size: 14px; letter-spacing: 0; text-transform: none; }
+.btn::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; background: var(--btn-wipe);
+  transform: scaleX(0); transform-origin: left; transition: transform var(--dur-standard) var(--ease-thread);
+}
+html[dir="rtl"] .btn::before { transform-origin: right; }
+.btn:hover::before, .btn:focus-visible::before { transform: scaleX(1); }
+.btn-primary { background: var(--color-cinnamon); color: var(--color-linen); --btn-wipe: var(--color-black); }
+.btn-secondary { border-color: currentColor; --btn-wipe: var(--color-graphite); }
+.btn-secondary:hover, .btn-secondary:focus-visible { color: var(--color-linen); border-color: var(--color-graphite); }
+/* On dark rooms the primary inverts to Linen; brown arrives as the hover fill. */
+.room-black .btn-primary, .on-dark .btn-primary { background: var(--color-linen); color: var(--color-black); --btn-wipe: var(--color-cinnamon); }
+.room-black .btn-primary:hover, .room-black .btn-primary:focus-visible,
+.on-dark .btn-primary:hover, .on-dark .btn-primary:focus-visible { color: var(--color-linen); }
+.room-black .btn-secondary, .on-dark .btn-secondary { --btn-wipe: var(--color-linen); }
+.room-black .btn-secondary:hover, .room-black .btn-secondary:focus-visible,
+.on-dark .btn-secondary:hover, .on-dark .btn-secondary:focus-visible { color: var(--color-black); border-color: var(--color-linen); }
+.room-taupe .btn-primary { background: var(--color-black); color: var(--color-linen); --btn-wipe: var(--color-graphite); }
+
+/* Text action: a thread underline that retracts to a nail-length on hover */
+.link-thread { position: relative; display: inline-flex; align-items: center; min-height: 44px; }
+.link-thread::after {
+  content: ""; position: absolute; inset-inline: 0; inset-block-end: 10px; height: 1px; background: currentColor;
+  transform-origin: inline-start; transition: transform var(--dur-standard) var(--ease-thread);
+}
+html[dir="rtl"] .link-thread::after { transform-origin: right; }
+html[dir="ltr"] .link-thread::after { transform-origin: left; }
+.link-thread:hover::after, .link-thread:focus-visible::after { transform: scaleX(0.12); }
+
+/* Tags: square, 1px, selected = filled */
+.tag {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border: 1px solid var(--room-line);
+  font-size: 11px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; white-space: nowrap;
+  transition: background var(--dur-micro) var(--ease-soft), color var(--dur-micro) var(--ease-soft), border-color var(--dur-micro) var(--ease-soft);
+}
+html[dir="rtl"] .tag { font-size: 13px; letter-spacing: 0; text-transform: none; }
+.tag:hover { border-color: currentColor; }
+.tag[aria-pressed="true"], .tag[aria-selected="true"] { background: var(--room-fg); color: var(--room-bg); border-color: var(--room-fg); }
+
+/* Image slots: flat blocks at the final aspect ratio. Never shimmer. */
+.slot { position: relative; overflow: hidden; background: var(--room-slot); }
+.slot-note {
+  position: absolute; inset-inline-start: 12px; inset-block-end: 12px; max-width: calc(100% - 24px);
+  font-size: 11px; line-height: 1.4; letter-spacing: 0.04em; padding: 4px 8px;
+  background: rgb(6 7 8 / 0.72); color: var(--color-linen);
+}
+html[dir="rtl"] .slot-note { font-size: 12px; letter-spacing: 0; }
+
+.ba-label { position: absolute; top: 12px; font-size: 11px; line-height: 1.4; letter-spacing: 0.04em; padding: 4px 8px; background: rgb(6 7 8 / 0.72); color: var(--color-linen); pointer-events: none; }
+html[dir="rtl"] .ba-label { font-size: 12px; letter-spacing: 0; }
+
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* ---------- Loader: thread closes the ring, wordmark appears. Once per session. ---------- */
+.loader {
+  position: fixed; inset: 0; z-index: 500; display: grid; place-items: center; background: var(--color-black); color: var(--color-linen);
+  animation: loader-out 420ms var(--ease-thread) 1500ms forwards;
+}
+.loader svg { width: min(34vw, 150px); height: auto; }
+.loader .ring { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 900ms var(--ease-thread) 80ms forwards; }
+.loader .chord { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 520ms var(--ease-thread) forwards; }
+.loader .chord:nth-of-type(1) { animation-delay: 620ms; }
+.loader .chord:nth-of-type(2) { animation-delay: 720ms; }
+.loader .chord:nth-of-type(3) { animation-delay: 820ms; }
+.loader .chord:nth-of-type(4) { animation-delay: 920ms; }
+.loader .mark { opacity: 0; animation: fade-in 420ms var(--ease-soft) 1000ms forwards; margin-block-start: 28px; }
+html[data-loader="skip"] .loader { display: none; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes fade-in { to { opacity: 1; } }
+@keyframes loader-out { to { opacity: 0; visibility: hidden; } }
+
+}
+
+/* ---------- Reduced motion: content and function stay, movement goes ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 1ms !important; animation-delay: 0ms !important; transition-duration: 1ms !important; scroll-behavior: auto !important; }
+  .loader { display: none; }
+}
+@media (prefers-contrast: more) {
+  :root { --line-on-light: rgb(52 60 64 / 0.5); --line-on-dark: rgb(238 229 219 / 0.5); }
+  .room-black { --room-label: var(--color-linen); --room-muted: var(--color-linen); }
+}
