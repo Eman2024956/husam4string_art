@@ -13,6 +13,7 @@ import { Closing } from "@/components/sections/Closing";
 import { DiySequence } from "@/components/sections/DiySequence";
 import { Hero } from "@/components/sections/Hero";
 import { ProcessTimeline } from "@/components/sections/ProcessTimeline";
+import { Reveals } from "@/components/motion/Reveals";
 import { ChapterHead } from "@/components/ui/ChapterHead";
 
 const PAIRS: { shape: Shape; seed: number }[] = [
@@ -215,6 +216,7 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
       </section>
 
       <Closing t={t.contact} footer={t.footer} nav={t.nav} locale={locale} />
+      <Reveals />
     </main>
   );
 }
